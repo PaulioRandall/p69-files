@@ -1,0 +1,38 @@
+{
+	"author": "Paul Williams",
+	"name": "p69",
+	"description": "A minimalist CSS preprocessing tool using simple search and replace.",
+	"type": "module",
+	"license": "MIT",
+	"version": "4.0.0-beta",
+	"engines": {
+		"node": ">=20"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/PaulioRandall/p69.git"
+	},
+	"keywords": [
+		"css",
+		"processor",
+		"minimalist",
+		"node",
+		"svelte",
+		"plunder"
+	],
+	"exports": {
+		".": "./src/index.js"
+	},
+	"scripts": {
+		"fmt": "prettier --log-level warn --write .",
+		"test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --silent --runInBand",
+		"commit": "npm run fmt && npm run test && cat ./scripts/ready-to-ship.txt"
+	},
+	"devDependencies": {
+		"jest": "29.7.0",
+		"prettier": "3.4.2"
+	},
+	"dependencies": {
+		"chokidar": "^4.0.3"
+	}
+}
