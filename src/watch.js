@@ -1,9 +1,9 @@
 import chokidar from 'chokidar'
 
-import { compileFiles } from '../compile/compiler.js'
-import os from '../os.js'
+import compileFiles from './files.js'
+import os from './os.js'
 
-export const watchP69 = (tokenMaps, options = {}) => {
+export default (tokenMaps, options = {}) => {
 	const src = options.src || './src'
 	const chokidarOptions = options.chokidar || {}
 

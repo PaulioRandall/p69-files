@@ -1,7 +1,7 @@
 import fs from 'fs'
 
 import testdata from './testdata.js'
-import compileFiles from './compiler.js'
+import compileFiles from './files.js'
 
 const expectedCSS = [
 	{

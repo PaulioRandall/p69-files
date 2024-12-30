@@ -1,10 +1,10 @@
 import path from 'path'
-import P69 from 'p69'
+import P69 from '@paulio/p69'
 
 import os from './os.js'
-import listP69Files from './list.js'
+import listP69Files from './list_files.js'
 
-export const compileFiles = async (tokenMaps, options = {}) => {
+export default async (tokenMaps, options = {}) => {
 	const {
 		src = './src', //
 		out = './src/app.css', //

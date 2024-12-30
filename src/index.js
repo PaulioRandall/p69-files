@@ -1,11 +1,2 @@
-export stringToCSS from './strings/stringToCSS.js'
-export fileToCSS from './files/fileToCSS.js'
-export watchFile from './watchers/watchFile.js'
-export newSveltePreprocessor from './svelte/preprocessor.js'
-
-export default Object.freeze({
-	stringToCSS,
-	fileToCSS,
-	watchFile,
-	newSveltePreprocessor,
-})
+export { default as default } from './files.js'
+export { default as watchP69 } from './watch.js'
