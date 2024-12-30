@@ -16,7 +16,7 @@ export default async (tokenMaps, options = {}) => {
 	try {
 		p69Files = await listP69Files(src)
 	} catch (e) {
-		stderr(e)
+		os.stderr(e)
 		return true
 	}
 

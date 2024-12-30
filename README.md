@@ -378,3 +378,31 @@ P69.newSveltePreprocessor(tokens, {
 ```
 
 [^Back to menu](#explore)
+
+## Chokidar
+
+Default Chokidar options. Override with caution!!
+
+```js
+const chokidarOptions = {
+	// Ignore everything except .p69 files.
+	ignored: (path, stats) => stats?.isFile() && !path.endsWith('.p69'),
+
+	// Otherwise recompile triggers for each dir under src during start up.
+	ignoreInitial: true,
+
+	// A little idiot proofing.
+	followSymlinks: false,
+
+	// I don't know what is suitable but seems to work fine for me.
+	// Extend 'stabilityThreshold' if you experience file update issues.
+	awaitWriteFinish: {
+		stabilityThreshold: 999,
+		pollInterval: 200,
+	},
+
+	// Avoid triggering recompile twice when tooling updates
+	// a file by deleting and writing a new.
+	atomic: 200,
+}
+```
