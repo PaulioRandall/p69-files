@@ -17,7 +17,7 @@ export default (tokenMaps, options = {}) => {
 		// A little idiot proofing.
 		followSymlinks: false,
 
-		// I don't know what is suitable but seems to work fine for me.
+		// I don't know what is suitable but seems to work fine.
 		// Extend 'stabilityThreshold' if you experience file update issues.
 		awaitWriteFinish: {
 			stabilityThreshold: 999,

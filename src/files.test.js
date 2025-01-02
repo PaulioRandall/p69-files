@@ -29,7 +29,7 @@ describe('files.js', () => {
 
 		const hasErrors = await compileFiles(tokenMap, {
 			src: testdata.testDir,
-			out: null,
+			dst: null,
 		})
 
 		expect(hasErrors).toEqual(false)
@@ -42,7 +42,7 @@ describe('files.js', () => {
 	test('processes AND amalgamtes testdata from .p69 to .css', async () => {
 		await testdata.reset()
 
-		const out = testdata.testDir + '/global.css'
+		const dst = testdata.testDir + '/global.css'
 		const tokenMap = {
 			color: 'blue',
 			pad: '2rem',
@@ -50,7 +50,7 @@ describe('files.js', () => {
 
 		const hasErrors = await compileFiles(tokenMap, {
 			src: testdata.testDir,
-			out: out,
+			dst: dst,
 		})
 
 		expect(hasErrors).toEqual(false)
@@ -59,6 +59,6 @@ describe('files.js', () => {
 			return `${acc}${f.content}\n`
 		}, '')
 
-		await testdata.expectFileContains(out, exp)
+		await testdata.expectFileContains(dst, exp)
 	}, 2000)
 })

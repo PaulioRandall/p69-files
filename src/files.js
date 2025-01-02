@@ -7,7 +7,7 @@ import listP69Files from './list_files.js'
 export default async (tokenMaps, options = {}) => {
 	const {
 		src = './src', //
-		out = './src/app.css', //
+		dst = './src/app.css', //
 	} = options
 
 	let hasErrors = false
@@ -20,12 +20,12 @@ export default async (tokenMaps, options = {}) => {
 		return true
 	}
 
-	if (out) {
-		await os.deleteFile(out)
+	if (dst) {
+		await os.deleteFile(dst)
 	}
 
 	for (const f of p69Files) {
-		await compileFile(f, tokenMaps, out, {
+		await compileFile(f, tokenMaps, dst, {
 			ref: f,
 			...options, //
 		}).catch((e) => {
@@ -37,7 +37,7 @@ export default async (tokenMaps, options = {}) => {
 	return hasErrors
 }
 
-export const compileFile = async (p69File, tokenMaps, out, options) => {
+export const compileFile = async (p69File, tokenMaps, dst, options) => {
 	let [css, ok] = await os.readWholeFile(p69File)
 
 	if (!ok) {
@@ -45,15 +45,15 @@ export const compileFile = async (p69File, tokenMaps, out, options) => {
 		return
 	}
 
-	css = P69(tokenMaps, css, options)
+	css = P69.string(tokenMaps, css, options)
 	css = css.trim()
 
-	await writeCssToFile(p69File, css, out)
+	await writeCssToFile(p69File, css, dst)
 }
 
-const writeCssToFile = async (p69File, css, out) => {
-	if (out) {
-		await os.appendToFile(out, css + '\n\n')
+const writeCssToFile = async (p69File, css, dst) => {
+	if (dst) {
+		await os.appendToFile(dst, css + '\n\n')
 		return
 	}
 

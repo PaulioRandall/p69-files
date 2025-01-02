@@ -1,2 +1,9 @@
-export { default as default } from './files.js'
-export { default as watchP69 } from './watch.js'
+import P69 from 'p69'
+import { default as file } from './files.js'
+import { default as watch } from './watch.js'
+
+export default {
+	string: P69.string,
+	file,
+	watch,
+}
