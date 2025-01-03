@@ -40,7 +40,7 @@ Extends **P69** to support compiling CSS files and file watching. See https://gi
 }
 ```
 
-**Then** running `p69-to-css.js`:
+**Then** executing `p69-to-css.js`:
 
 ```js
 import P69 from 'p69-files'
@@ -132,11 +132,11 @@ P69(
 )
 ```
 
-[^Back to menu](#explore)
+[^Back to contents](#contents)
 
 ## Watching
 
-Unfortunatly, I've had little success in getting a JavaScript token file **and its dependencies** to reload on change. ECMAScript modules were designed to load once and once only. There are only leaky solutions.
+Unfortunatly, I've had little success in getting a JavaScript token file **and its dependencies** to reload on change. ECMAScript modules were designed to load once and once only.
 
 ```js
 import P69 from 'p69'
@@ -209,4 +209,4 @@ P69.watch(
 )
 ```
 
-[^Back to menu](#explore)
+[^Back to contents](#contents)
