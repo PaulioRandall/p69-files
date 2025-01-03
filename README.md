@@ -142,7 +142,7 @@ Unfortunatly, I've had little success in getting a JavaScript token file **and i
 import P69 from 'p69'
 
 const mappings = {
-	...
+	// ...
 }
 
 // Does not block.
