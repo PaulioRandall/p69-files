@@ -118,9 +118,9 @@ P69(
 		//
 		// If the error isn't thrown then processing will
 		// continue for the remaining tokens.
-		//
-		// By default, logs the error and carries on.
-		onError: (err, token) => {},
+		onError: (err, token) => {
+			// By default, logs the error and carries on.
+		},
 
 		// Directory to scan for .p69 files.
 		src: "./src",
@@ -169,9 +169,9 @@ P69.watch(
 		//
 		// If the error isn't thrown then processing will
 		// continue for the remaining tokens.
-		//
-		// By default, logs the error and carries on.
-		onError: (err, token) => {},
+		onError: (err, token) => {
+			// By default, logs the error and carries on.
+		},
 
 		// Directory to scan for .p69 files.
 		src: "./src",
