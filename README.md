@@ -4,7 +4,12 @@
 
 # P69 Files
 
-Extends **P69** to support compiling CSS files and file watching. See https://github.com/PaulioRandall/p69 for information on **P69**.
+Adds CSS file and file watching support to **P69**.
+
+- **P69**: https://github.com/PaulioRandall/p69
+- **P69 Files**: https://github.com/PaulioRandall/p69-files
+- **P69 Svelte**: https://github.com/PaulioRandall/p69-svelte
+- **P69 Util**: https://github.com/PaulioRandall/p69-util
 
 ## Contents
 
