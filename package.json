@@ -4,7 +4,7 @@
 	"description": "Injects compile time tokens into CSS files",
 	"type": "module",
 	"license": "MIT",
-	"version": "1.0.0-rc-1",
+	"version": "1.0.0-rc-2",
 	"engines": {
 		"node": ">=18"
 	},
@@ -30,7 +30,7 @@
 		"prettier": "3.4.2"
 	},
 	"dependencies": {
-		"@paulio/p69": "4.0.0-rc-4",
+		"@paulio/p69": "^4.0.0-rc-5",
 		"chokidar": "^4.0.3"
 	}
 }
