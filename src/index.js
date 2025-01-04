@@ -3,7 +3,7 @@ import { default as file } from './files.js'
 import { default as watch } from './watch.js'
 
 export default {
-	string: P69.string,
+	...P69,
 	file,
 	watch,
 }
