@@ -4,53 +4,20 @@
 
 # P69 Files
 
-Adds CSS file and file watching support to **P69**.
+Provides **P69** file (CSS) and file watching.
 
 - **P69**: https://github.com/PaulioRandall/p69
 - **P69 Files**: https://github.com/PaulioRandall/p69-files
 - **P69 Svelte**: https://github.com/PaulioRandall/p69-svelte
 - **P69 Util**: https://github.com/PaulioRandall/p69-util
 
-## Contents
-
-- [Example](#example)
-- [Options](#options)
-- [Watching](#watching)
-  - [Options](#watch-options)
-
 ## Example
 
-**Given** `my-styles.p69` some where under `/src`:
-
-```css
-.my-class {
-	color: $color.normal;
-	font-weight: bold;
-
-	font-size: $font.size.md;
-	width: $width('lg');
-}
-
-.my-class:hover {
-	color: &color.highlight;
-}
-```
-
-**And** `more-styles.p69` some where under `/src`:
-
-```css
-.another-class {
-	font-size: $font.size.sm;
-	width: $width('ms');
-}
-```
-
-**Then** executing `p69-to-css.js`:
+**src/tokens.js**
 
 ```js
-import P69 from 'p69-files'
-
-const mappings = {
+// Must return a token map (object) or array of token maps.
+export default {
 	color: {
 		normal: 'burlywood',
 		highlight: 'crimson ',
@@ -74,22 +41,65 @@ const mappings = {
 		return sizes[md]
 	},
 }
+```
 
-await P69.file(tokens)
+**src/my-styles.p69**
+
+```css
+.my-class {
+	color: $color.normal;
+	font-weight: bold;
+
+	font-size: $font.size.md;
+	width: $width('lg');
+}
+
+.my-class:hover {
+	color: &color.highlight;
+}
+```
+
+**src/my-other-styles.p69**
+
+```css
+.another-class {
+	font-size: $font.size.sm;
+	width: $width('ms');
+}
+```
+
+**src/p69-to-css.js**
+
+```js
+import P69Files from 'p69-files/files'
+
+// Scans for
+await P69Files('./src/tokens.js')
 /*
-	await P69.files(mappings, {
-		src: './src',
-		dst: './src/app.css',
-	})
+	// Defaults options:
+	P69Files("path-to-mappings.js", {
+		p69Files: {
+			src: "./src",
+			dst: "./src/app.css",
+		}
+	} 
+
+	// May provide multiple token files, each file must
+	// return a token map or array of token maps.
+	P69Files([
+		"path-to-first-mapping.js",
+		"path-to-second-mapping.js",
+		"path-to-third-mapping.js",
+		"etc",
+	])
 */
 ```
 
-> You can pass multiple mappings. It will search each mapping in order until it finds a value, e.g. `P69.file([fonts, colors])`
-
-**Produces** `src/app.css`:
+**src/app.css**
 
 ```css
-/* Note: order may vary */
+/* Order may vary */
+
 .my-class {
 	color: burlywood;
 	font-size: 1rem;
@@ -106,112 +116,69 @@ await P69.file(tokens)
 }
 ```
 
-[^Back to contents](#contents)
-
 ## Options
 
 ```js
-P69(
+P69Files(
 	mappings,
 	options: {
-		// onError is called when an error occurs.
-		//
-		// If the error isn't thrown then processing will
-		// continue for the remaining tokens.
-		onError: (err, token) => {
-			// By default, logs the error and carries on.
+		p69: {
+			// See P69: https://github.com/PaulioRandall/p69
 		},
+		p69Files: {
+			// Directory to scan for .p69 files.
+			src: "./src",
 
-		// Directory to scan for .p69 files.
-		src: "./src",
+			// Output file. Amalgamates all compiled .p69
+			// CSS into one file.
+			//
+			// If set as undefined, null, or empty string,
+			// each .p69 file will be written as a .css file
+			// in the same folder. It will overwrite if
+			// already exists.
+			dst: "./src/app.css",
 
-		// Output file. Amalgamates all compiled .p69
-		// CSS into one file.
-		//
-		// If set as undefined, null, or empty string,
-		// each .p69 file will be written as a .css file
-		// in the same folder. It will overwrite if
-		// already exists.
-		dst: "./src/app.css"
+			// If true, recompiles when either a token map
+			// file or .p69 file is created, deleted, moved, or
+			// changed.
+			//
+			// If using NodeJS, use
+			// `process.env.NODE_ENV === 'development'` to enable
+			// for development only.
+			watch: false,
+
+			// These are only applied if watch is true.
+			//
+			// These are the defaults. You may specify any of
+			// Chokidar's options here (v5).
+			// See https://github.com/paulmillr/chokidar.
+			chokidar: {
+				// Ignore everything except .p69 files.
+				ignored: (path, stats) => {
+					return stats?.isFile() && !path.endsWith('.p69')
+				}
+
+				// True to prevent recompile for each dir under
+				// src during start up.
+				ignoreInitial: true,
+
+				// A little idiot proofing.
+				followSymlinks: false,
+
+				// I don't know what is suitable but seems to work
+				// fine. Extend 'stabilityThreshold' if you
+				// experience file update issues.
+				awaitWriteFinish: {
+					stabilityThreshold: 999,
+					pollInterval: 200,
+				},
+
+				// Avoid triggering recompile twice when some tool
+				// deletes and writes a file, rather than updating
+				// it.
+				atomic: 200,
+			}
+		}
 	}
 )
 ```
-
-[^Back to contents](#contents)
-
-## Watching
-
-Unfortunatly, I've had little success in getting a JavaScript token file **and its dependencies** to reload on change. ECMAScript modules were designed to load once and once only.
-
-```js
-import P69 from 'p69'
-
-const mappings = {
-	// ...
-}
-
-// Does not block.
-// Currently uses chokidar.
-const stopWatching = P69.watch(mappings)
-
-// ...
-
-await stopWatching()
-```
-
-### Watch Options
-
-```js
-P69.watch(
-	mappings,
-	options: {
-		// onError is called when an error occurs.
-		//
-		// If the error isn't thrown then processing will
-		// continue for the remaining tokens.
-		onError: (err, token) => {
-			// By default, logs the error and carries on.
-		},
-
-		// Directory to scan for .p69 files.
-		src: "./src",
-
-		// Output file. Amalgamates all compiled .p69
-		// CSS into one file.
-		//
-		// If set as undefined, null, or empty string,
-		// each .p69 file will be written as a .css file
-		// in the same folder. It will overwrite if
-		// already exists.
-		dst: "./src/app.css",
-
-		// Options to file watching package: Chokidar.
-		//
-		// These are the defaults. They extend Chokidar's (v4)
-		// defaults, see https://github.com/paulmillr/chokidar.
-		chokidar: {
-			// Ignore everything except .p69 files.
-			ignored: (path, stats) => stats?.isFile() && !path.endsWith('.p69'),
-
-			// Otherwise recompile triggers for each dir under src during start up.
-			ignoreInitial: true,
-
-			// A little idiot proofing.
-			followSymlinks: false,
-
-			// I don't know what is suitable but seems to work fine.
-			// Extend 'stabilityThreshold' if you experience file update issues.
-			awaitWriteFinish: {
-				stabilityThreshold: 999,
-				pollInterval: 200,
-			},
-
-			// Avoid triggering recompile twice when some tool deletes and
-			// writes a file, rather than updating it.
-			atomic: 200,
-		},
-	}
-)
-```
-
-[^Back to contents](#contents)

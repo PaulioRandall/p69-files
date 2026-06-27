@@ -4,9 +4,9 @@
 	"description": "Injects compile time tokens into CSS files",
 	"type": "module",
 	"license": "MIT",
-	"version": "1.0.0-rc-3",
+	"version": "1.0.0-rc-5",
 	"engines": {
-		"node": ">=18"
+		"node": ">=24"
 	},
 	"repository": {
 		"type": "git",
@@ -14,23 +14,23 @@
 	},
 	"keywords": [
 		"css",
-		"node",
 		"files"
 	],
 	"exports": {
-		".": "./lib/index.js"
+		"./files": "./src/files.js",
+		"./watch": "./src/watch.js"
 	},
 	"scripts": {
 		"fmt": "prettier --log-level warn --write .",
-		"test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --silent --runInBand",
-		"commit": "npm run fmt && npm run test && cat ./ready-to-ship.txt"
+		"test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand --passWithNoTests --testPathPatterns ./src/",
+		"audit": "npm run fmt && npm run test && cat ./ready-to-integrate.txt"
 	},
 	"devDependencies": {
-		"jest": "29.7.0",
-		"prettier": "3.4.2"
+		"jest": "30.4.2",
+		"prettier": "3.9.0"
 	},
 	"dependencies": {
-		"@paulio/p69": "^4.0.0-rc-6",
-		"chokidar": "^4.0.3"
+		"@paulio/p69": "4.0.0-rc-8",
+		"chokidar": "5.0.0"
 	}
 }

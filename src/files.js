@@ -45,7 +45,7 @@ export const compileFile = async (p69File, tokenMaps, dst, options) => {
 		return
 	}
 
-	css = P69.string(tokenMaps, css, options)
+	css = P69(tokenMaps, css, options)
 	css = css.trim()
 
 	await writeCssToFile(p69File, css, dst)

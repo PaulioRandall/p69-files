@@ -51,7 +51,7 @@ const handleOK = (result) => {
 }
 
 const handleErr = (err) => {
-	stderr(e)
+	stderr(err)
 	return [null, false]
 }
 
