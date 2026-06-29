@@ -1,31 +1,36 @@
 import path from 'path'
 import P69 from '@paulio/p69'
 
+import prepOptions from './prepOptions.js'
+import readTokenFiles from './readTokenFiles.js'
 import os from './os.js'
-import listP69Files from './list_files.js'
 
-export default async (tokenMaps, options = {}) => {
-	const {
-		src = './src', //
-		dst = './src/app.css', //
-	} = options
+// TODO: Rewrite
+
+export default async (tokenMapFiles, userOptions = {}) => {
+	const options = prepOptions
 
 	let hasErrors = false
-	let p69Files = []
+	let files = []
 
 	try {
-		p69Files = await listP69Files(src)
+		files = os.listP69Files(options.src)
 	} catch (e) {
 		os.stderr(e)
 		return true
 	}
 
-	if (dst) {
-		await os.deleteFile(dst)
+	if (options.dst) {
+		try {
+			await os.deleteFile(options.dst)
+		} catch (e) {
+			os.stderr(e)
+			return true
+		}
 	}
 
-	for (const f of p69Files) {
-		await compileFile(f, tokenMaps, dst, {
+	for (const f of files) {
+		await compileFile(f, tokenMapFiles, options.dst, {
 			ref: f,
 			...options, //
 		}).catch((e) => {

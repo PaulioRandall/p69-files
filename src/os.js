@@ -15,6 +15,13 @@ const stderr = (...msgs) => {
 	return process.stderr.write(`\n${TTY_RED}${msg}${TTY_RESET}`)
 }
 
+const listP69Files = (src = '.') => {
+	src = path.resolve(src + '/**/*.p69')
+	return fs //
+		.globSync(src)
+		.map((f) => path.resolve(f))
+}
+
 const replaceFileExt = (f, newExt) => {
 	const currExt = path.extname(f)
 	f = f.slice(0, -currExt.length)
@@ -22,10 +29,7 @@ const replaceFileExt = (f, newExt) => {
 }
 
 const readWholeFile = (f) => {
-	return fs.promises
-		.readFile(f, { encoding: 'utf-8' })
-		.then(handleOK)
-		.catch(handleErr)
+	return fs.readFileSync(f, { encoding: 'utf-8' })
 }
 
 const createOrReplaceFile = (f, content) => {

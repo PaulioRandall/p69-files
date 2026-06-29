@@ -1,16 +1,16 @@
 {
 	"author": "Paul Williams",
 	"name": "@paulio/p69-files",
-	"description": "Injects compile time tokens into CSS files",
+	"description": "P69 Files: Injects compile time tokens into CSS files",
 	"type": "module",
 	"license": "MIT",
-	"version": "1.0.0-rc-5",
+	"version": "1.0.0-rc-4",
 	"engines": {
 		"node": ">=24"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/PaulioRandall/p69-files.git"
+		"url": "git+https://github.com/PaulioRandall/p69-files.git"
 	},
 	"keywords": [
 		"css",
