@@ -4,6 +4,8 @@
 
 # P69 Files
 
+> IMPORTANT: Repository is no longer maintained. Project has been merged with [P69](https://github.com/PaulioRandall/p69). 
+
 Provides **P69** file (CSS) and file watching.
 
 - **P69**: https://github.com/PaulioRandall/p69
